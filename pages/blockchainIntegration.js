@@ -1,6 +1,6 @@
 // Rainbow and Wagmi integration guide: https://billyjitsu.hashnode.dev/the-rainbowkit-wagmi-guide-i-wish-i-had
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import PresaleManager from "./utils/PresaleManager.js"
+//import PresaleManager from "./utils/PresaleManager.js"
 
 export default function blockchainIntegration()
 {
@@ -9,7 +9,7 @@ export default function blockchainIntegration()
         return (
             <>
                 <ConnectButton /><br />
-                <PresaleManager /><br />
+                {/*<PresaleManager /><br />*/}
             </>
         );
     };
