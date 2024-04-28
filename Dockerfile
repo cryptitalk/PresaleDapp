@@ -1,4 +1,4 @@
-FROM node:18
+FROM node:lts-alpine
 
 # make the 'app' folder the current working directory
 WORKDIR /app
@@ -17,4 +17,4 @@ RUN npm run build
 
 EXPOSE 8080
 #CMD [ "http-server", "build" ]
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "start" ]
