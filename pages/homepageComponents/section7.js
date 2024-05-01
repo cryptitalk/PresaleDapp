@@ -75,7 +75,7 @@ function useLeaderboardData(CONTRACT_ADDRESS, CONTRACT_ABI, PRESALE_ID) {
         fetchData().catch(console.error);
     }, [participantsData, isError, isFetching]);
 
-   
+
 
     return leaderboardData;
 }
@@ -127,24 +127,32 @@ export default function Section7() {
                                 }}
                             />
                         </h4>
-                        <div className="tokenomicsDiv">
-                            {/* Adjust the below table classes as needed */}
-                            <table className="table-auto w-full text-white border-separate" style={{ borderSpacing: 0 }}>
+                        <div className="tokenomicsDiv" style={{ height: '100%', minHeight: 'calc(5 * 4rem)' }}>
+                            <table className="table-auto w-full text-white border-separate" style={{ borderSpacing: 0, height: '100%' }}>
                                 <thead>
                                     <tr className="bg-gray-800">
-                                        <th className="border border-gray-600 p-4">Rank</th>
-                                        <th className="border border-gray-600 p-4">Address</th>
-                                        <th className="border border-gray-600 p-4">Total Amount</th>
-                                        <th className="border border-gray-600 p-4">Claimed Amount</th>
+                                        <th className="border border-white p-4">Rank</th>
+                                        <th className="border border-white p-4">Address</th>
+                                        <th className="border border-white p-4">Total Amount</th>
+                                        <th className="border border-white p-4">Claimed Amount</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {paginatedData.map((entry, index) => (
                                         <tr key={entry.address} className="text-center">
-                                            <td className="border border-gray-600 p-4">{index + 1}</td>
-                                            <td className="border border-gray-600 p-4">{abbreviateAddress(entry.address)}</td>
-                                            <td className="border border-gray-600 p-4">{entry.totalAmount}</td>
-                                            <td className="border border-gray-600 p-4">{entry.claimedAmount}</td>
+                                            <td className="border border-white p-4">{index + 1 + ITEMS_PER_PAGE * currentPage}</td>
+                                            <td className="border border-white p-4">{abbreviateAddress(entry.address)}</td>
+                                            <td className="border border-white p-4">{entry.totalAmount}</td>
+                                            <td className="border border-white p-4">{entry.claimedAmount}</td>
+                                        </tr>
+                                    ))}
+                                    {/* Add empty rows if necessary to maintain consistent table height */}
+                                    {Array.from({ length: ITEMS_PER_PAGE - paginatedData.length }, (_, index) => (
+                                        <tr key={`empty-${index}`} className="text-center">
+                                            <td className="border border-white p-4">&nbsp;</td>
+                                            <td className="border border-white p-4">&nbsp;</td>
+                                            <td className="border border-white p-4">&nbsp;</td>
+                                            <td className="border border-white p-4">&nbsp;</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -152,22 +160,21 @@ export default function Section7() {
                         </div>
                     </div>
                     <div className="flex justify-center mb-4">
-                <div className="flex rounded-md">
-                    {Array.from({ length: totalPages }, (_, index) => (
-                        <button
-                            key={index}
-                            onClick={() => setPage(index)}
-                            className={`px-4 py-2 mx-1 ${
-                                currentPage === index
-                                    ? "bg-blue-500 text-white"
-                                    : "bg-gray-300 text-black"
-                            } rounded-md focus:outline-none`}
-                        >
-                            {index + 1}
-                        </button>
-                    ))}
-                </div>
-            </div>
+                        <div className="flex rounded-md">
+                            {Array.from({ length: totalPages }, (_, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => setPage(index)}
+                                    className={`px-4 py-2 mx-1 ${currentPage === index
+                                        ? "bg-blue-500 text-white"
+                                        : "bg-gray-300 text-black"
+                                        } rounded-md focus:outline-none`}
+                                >
+                                    {index + 1}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </section>
         </>
