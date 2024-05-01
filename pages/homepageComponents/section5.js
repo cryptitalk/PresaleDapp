@@ -36,7 +36,7 @@ export default function Section5() {
                 state: formData.get('state'),
                 postalCode: formData.get('postalCode'),
                 country: formData.get('country'),
-
+                referralCode: formData.get('referralCode'), // new line for referral code data
             },
             message: [{ role: "system", content: "I am butterflyx" }, { role: "user", content: "hello" }]
         };
@@ -79,7 +79,7 @@ export default function Section5() {
                                     name="street"
                                     placeholder="Street Address"
                                     required
-                                    className="form-input mt-2 block w-full"
+                                    className="form-input mt-2 block w-full text-black"
                                 />
                             </div>
                             <div className="mb-6">
@@ -87,7 +87,7 @@ export default function Section5() {
                                     type="text"
                                     name="street2"
                                     placeholder="Street Address Line 2"
-                                    className="form-input mt-2 block w-full"
+                                    className="form-input mt-2 block w-full text-black"
                                 />
                             </div>
                             <div className="grid grid-cols-2 gap-4 mb-6">
@@ -96,13 +96,13 @@ export default function Section5() {
                                     name="city"
                                     placeholder="City"
                                     required
-                                    className="form-input mt-2 col-span-1"
+                                    className="form-input mt-2 col-span-1 text-black"
                                 />
                                 <input
                                     type="text"
                                     name="state"
                                     placeholder="State/Province"
-                                    className="form-input mt-2 col-span-1"
+                                    className="form-input mt-2 col-span-1 text-black"
                                 />
                             </div>
                             <div className="grid grid-cols-2 gap-4 mb-6">
@@ -111,14 +111,22 @@ export default function Section5() {
                                     name="postalCode"
                                     placeholder="Postal Code"
                                     required
-                                    className="form-input mt-2 block w-full"
+                                    className="form-input mt-2 block w-full text-black"
                                 />
                                 <input
                                     type="text"
                                     name="country"
                                     placeholder="Country"
                                     required
-                                    className="form-input mt-2 block w-full"
+                                    className="form-input mt-2 block w-full text-black"
+                                />
+                            </div>
+                            <div className="mb-6">
+                                <input
+                                    type="text"
+                                    name="referralCode"
+                                    placeholder="Referral Code"
+                                    className="form-input mt-2 block w-full text-black"
                                 />
                             </div>
                             <button
