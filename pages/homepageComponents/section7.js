@@ -1,7 +1,6 @@
 // Import the FontAwesomeIcon component
 import Typewriter from 'typewriter-effect';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Doughnut } from 'react-chartjs-2';
 import { useContractRead } from "wagmi";
 import { useState, useEffect } from "react";
 import { ethers } from 'ethers';

@@ -10,10 +10,19 @@ import { useState, useEffect } from "react";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import React from 'react';
 import BuyWithUsdtModal from "./buyWithUsdtModal";
+import BuyWithCreditCardModal from "./buyWithCreditCardModal";
 
 export default function SeedSale()
 {
     const { address: useAccountAddress, connector: useAccountActiveConnector, isConnected: useAccountIsConnected } = useAccount()
+    // State to control the visibility of the BuyWithCreditCardModal
+    const [isBuyWithCreditCardModalOpen, setBuyWithCreditCardModalOpen] = useState(false);
+
+    // Function to handle successful purchase with a credit card
+    const onSuccessfulPurchase = () => {
+        console.log('Purchase was successful!');
+        setBuyWithCreditCardModalOpen(false);
+    };
 
     /**
      * @fn Log
@@ -231,6 +240,13 @@ export default function SeedSale()
                 </div>
                 <div className="flex items-center justify-center mb-6 mt-5">
                     <BuyWithUsdtModal />
+
+                    {/* Render the BuyWithCreditCardModal here and pass down the necessary props */}
+                    <BuyWithCreditCardModal
+                        isOpen={isBuyWithCreditCardModalOpen}
+                        onClose={() => setBuyWithCreditCardModalOpen(false)}
+                        onSuccessfulPurchase={onSuccessfulPurchase}
+                    />
                 </div>
             </>);
         }

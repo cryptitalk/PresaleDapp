@@ -19,6 +19,9 @@ import { Chain } from "wagmi";
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import { Analytics } from '@vercel/analytics/react';
+import { useEffect, useState } from 'react';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
 
 const binanceChainTestNet: Chain = {
   id: 97,
@@ -80,20 +83,27 @@ import type { AppProps } from 'next/app'
 
 export default function App({ Component, pageProps }: AppProps)
 {
+  const [stripePromise, setStripePromise] = useState(null);
+
+    useEffect(() => {
+        setStripePromise(loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY));
+    }, []);
 
   return (
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider coolMode chains={chains} theme={darkTheme(
-        {
-          accentColor: '#E02424',
-          accentColorForeground: 'white',
-          borderRadius: 'large',
-          fontStack: 'system',
-        }
-      )}>
-        <Component {...pageProps} />
-        <Analytics />
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <Elements stripe={stripePromise}>
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider coolMode chains={chains} theme={darkTheme(
+          {
+            accentColor: '#E02424',
+            accentColorForeground: 'white',
+            borderRadius: 'large',
+            fontStack: 'system',
+          }
+        )}>
+          <Component {...pageProps} />
+          <Analytics />
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </Elements>
   );
 }
