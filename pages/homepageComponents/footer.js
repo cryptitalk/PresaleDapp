@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import
 {
-    faTelegram,
+    faCodepen,
     faYoutube,
     faTwitter,
     faGithub
@@ -34,37 +34,37 @@ export default function Footer()
                         <h2 className="mb-6 text-lg font-semibold uppercase text-gray-400">Company contacts</h2>
                         <ul className="text-gray-400">
                             <li className="mb-4">
-                                <a href="#" className="hover:underline"><FontAwesomeIcon icon={faTelegram} className="mr-2" /> Telegram</a>
+                                <a href="https://marketplace.visualstudio.com/items?itemName=CryptiTalk.context-pilot" className="hover:underline"><FontAwesomeIcon icon={faCodepen} className="mr-2" /> VS Code</a>
                             </li>
                             <li className="mb-4">
-                                <a href="#" className="hover:underline"><FontAwesomeIcon icon={faYoutube} className="mr-2" /> YouTube</a>
+                                <a href="https://www.youtube.com/channel/UCOqFi6GFp6hH5L0xlZzukng" className="hover:underline"><FontAwesomeIcon icon={faYoutube} className="mr-2" /> YouTube</a>
                             </li>
                             <li className="mb-4">
-                                <a href="#" className="hover:underline"><FontAwesomeIcon icon={faTwitter} className="mr-2" /> Twitter</a>
+                                <a href="https://twitter.com/cryptitalk" className="hover:underline"><FontAwesomeIcon icon={faTwitter} className="mr-2" /> Twitter</a>
                             </li>
                             <li className="mb-4">
-                                <a href="#" className="hover:underline"><FontAwesomeIcon icon={faGithub} className="mr-2" /> Github</a>
+                                <a href="https://github.com/cryptitalk/ContextPilot" className="hover:underline"><FontAwesomeIcon icon={faGithub} className="mr-2" /> Github</a>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div className="py-6 px-4 bg-neutral-900 md:flex md:items-center md:justify-between">
-                    <span className="text-sm text-gray-300 sm:text-center">© 2022 <a href="#">R3D4NG3L</a>. All Rights Reserved.
+                    <span className="text-sm text-gray-300 sm:text-center">© 2024 <a href="#">ContextPilot</a>. All Rights Reserved.
                     </span>
                     <div className="flex mt-4 space-x-6 sm:justify-center md:mt-0">
-                        <a href="#" className="text-gray-400 hover:text-white">
-                            <FontAwesomeIcon icon={faTelegram} className="mr-2" />
-                            <span className="sr-only">Telegram group</span>
+                        <a href="https://marketplace.visualstudio.com/items?itemName=CryptiTalk.context-pilot" className="text-gray-400 hover:text-white">
+                            <FontAwesomeIcon icon={faCodepen} className="mr-2" />
+                            <span className="sr-only">VS Code</span>
                         </a>
-                        <a href="#" className="text-gray-400 hover:text-white">
+                        <a href="https://www.youtube.com/channel/UCOqFi6GFp6hH5L0xlZzukng" className="text-gray-400 hover:text-white">
                             <FontAwesomeIcon icon={faYoutube} className="mr-2" />
                             <span className="sr-only">YouTube channel</span>
                         </a>
-                        <a href="#" className="text-gray-400 hover:text-white">
+                        <a href="https://twitter.com/cryptitalk" className="text-gray-400 hover:text-white">
                             <FontAwesomeIcon icon={faTwitter} className="mr-2" />
                             <span className="sr-only">Twitter page</span>
                         </a>
-                        <a href="#" className="text-gray-400 hover:text-white">
+                        <a href="https://github.com/cryptitalk/ContextPilot" className="text-gray-400 hover:text-white">
                             <FontAwesomeIcon icon={faGithub} className="mr-2" />
                             <span className="sr-only">Github page</span>
                         </a>
