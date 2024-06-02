@@ -3,13 +3,11 @@
 import '@rainbow-me/rainbowkit/styles.css';
 import { ledgerWallet, metaMaskWallet, walletConnectWallet, trustWallet, coinbaseWallet, rainbowWallet } from '@rainbow-me/rainbowkit/wallets';
 import { connectorsForWallets } from '@rainbow-me/rainbowkit';
-import
-{
+import {
   RainbowKitProvider,
   darkTheme
 } from '@rainbow-me/rainbowkit';
-import
-{
+import {
   chain,
   configureChains,
   createClient,
@@ -19,6 +17,10 @@ import { Chain } from "wagmi";
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import { Analytics } from '@vercel/analytics/react';
+import { useEffect, useState } from 'react';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import type { Stripe, StripeConstructorOptions } from '@stripe/stripe-js';
 
 const binanceChainTestNet: Chain = {
   id: 97,
@@ -78,22 +80,33 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
 import type { AppProps } from 'next/app'
 
-export default function App({ Component, pageProps }: AppProps)
-{
+export default function App({ Component, pageProps }: AppProps) {
+  const [stripePromise, setStripePromise] = useState<Stripe | null>(null);
+
+  useEffect(() => {
+    const fetchStripe = async () => {
+      const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || 'your_fallback_stripe_public_key_here');
+      setStripePromise(stripe);
+    };
+
+    fetchStripe();
+  }, []);
 
   return (
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider coolMode chains={chains} theme={darkTheme(
-        {
-          accentColor: '#E02424',
-          accentColorForeground: 'white',
-          borderRadius: 'large',
-          fontStack: 'system',
-        }
-      )}>
-        <Component {...pageProps} />
-        <Analytics />
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <Elements stripe={stripePromise}>
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider coolMode chains={chains} theme={darkTheme(
+          {
+            accentColor: '#E02424',
+            accentColorForeground: 'white',
+            borderRadius: 'large',
+            fontStack: 'system',
+          }
+        )}>
+          <Component {...pageProps} />
+          <Analytics />
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </Elements>
   );
 }

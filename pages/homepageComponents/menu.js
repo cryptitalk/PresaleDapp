@@ -15,8 +15,8 @@ export default function Menu()
                 </Navbar.Brand>
                 <div className="flex md:order-2">
                     <a href="#section4">
-                        <Button className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 rounded-lg font-medium text-sm text-center mr-3 md:mr-0 bg-red-600 hover:bg-red-700 focus:ring-red-800">
-                            JOIN PRESALE
+                        <Button className="text-white bg-light-blue-500 hover:bg-light-blue-100 focus:ring-4 focus:outline-none focus:ring-light-blue-50 rounded-lg font-medium text-sm text-center mr-3 md:mr-0">
+                            Charge Credits
                         </Button>
                     </a>
                     <Navbar.Toggle />
@@ -28,6 +28,7 @@ export default function Menu()
                     >
                         Home
                     </Navbar.Link>
+                    {/*
                     <Navbar.Link
                         className="uppercase block py-2 pr-4 pl-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 md:hover:text-white text-gray-400 hover:bg-gray-700 hover:text-white md:hover:bg-transparent border-gray-700"
                         href="#section2">
@@ -38,26 +39,29 @@ export default function Menu()
                         href="#section3">
                         Section3
                     </Navbar.Link>
+                    */}
                     <Navbar.Link
                         className="uppercase block py-2 pr-4 pl-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 md:hover:text-white text-gray-400 hover:bg-gray-700 hover:text-white md:hover:bg-transparent border-gray-700"
                         href="#section4">
-                        Section4
+                        Credits
                     </Navbar.Link>
                     <Navbar.Link
                         className="uppercase block py-2 pr-4 pl-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 md:hover:text-white text-gray-400 hover:bg-gray-700 hover:text-white md:hover:bg-transparent border-gray-700"
+                        href="#section7">
+                        Leaders
+                    </Navbar.Link>
+                     {/*
+                    <Navbar.Link
+                        className="uppercase block py-2 pr-4 pl-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 md:hover:text-white text-gray-400 hover:bg-gray-700 hover:text-white md:hover:bg-transparent border-gray-700"
                         href="#section5">
-                        Section5
+                        Claim
                     </Navbar.Link>
                     <Navbar.Link
                         className="uppercase block py-2 pr-4 pl-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 md:hover:text-white text-gray-400 hover:bg-gray-700 hover:text-white md:hover:bg-transparent border-gray-700"
                         href="#section6">
                         Section6
                     </Navbar.Link>
-                    <Navbar.Link
-                        className="uppercase block py-2 pr-4 pl-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 md:hover:text-white text-gray-400 hover:bg-gray-700 hover:text-white md:hover:bg-transparent border-gray-700"
-                        href="#section7">
-                        Section7
-                    </Navbar.Link>
+                    
                     <Navbar.Link
                         className="uppercase block py-2 pr-4 pl-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 md:hover:text-white text-gray-400 hover:bg-gray-700 hover:text-white md:hover:bg-transparent border-gray-700"
                         href="#section8">
@@ -68,6 +72,7 @@ export default function Menu()
                         href="#section9">
                         Section9
                     </Navbar.Link>
+                    */}
                 </Navbar.Collapse>
             </Navbar>
             {/* Menu END */}

@@ -103,7 +103,7 @@ const BuyWithUsdtModal = () =>
   }
 
   /* Constants */
-  const [tokens = 10000, setTokens] = useState();
+  const [tokens = 1, setTokens] = useState();
   const [usdt, setUsdt] = useState(0);
   const [usdtInputBoxClassName, setUsdtInputBoxClassName] = useState();
   const [usdtInputBoxError, setUsdtInputBoxError] = useState();
