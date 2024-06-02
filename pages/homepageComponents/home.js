@@ -6,7 +6,7 @@ export default function HomeSection() {
     return (
         <>
             {/* PARALLAX ONE START */}
-            <section id="home" className="flex items-center justify-center h-fit min-h-screen bg-fixed bg-center bg-cover bg-[url('/images/bg/14.jpg')]">
+            <section id="home" className="flex items-center justify-center h-fit min-h-screen bg-fixed bg-center bg-cover bg-[url('/images/bg/23.jpg')]">
                 <div className="container mx-auto text-center mt-[100px] md:mt-0">
                     <h2 className="uppercase lead text-white font-bold">Context Pilot </h2>
 
