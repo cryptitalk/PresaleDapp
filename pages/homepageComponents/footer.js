@@ -37,7 +37,7 @@ export default function Footer()
                                 <a href="https://marketplace.visualstudio.com/items?itemName=CryptiTalk.context-pilot" className="hover:underline"><FontAwesomeIcon icon={faCodepen} className="mr-2" /> VS Code</a>
                             </li>
                             <li className="mb-4">
-                                <a href="https://youtu.be/pGyi4Ki71qc" className="hover:underline"><FontAwesomeIcon icon={faYoutube} className="mr-2" /> YouTube</a>
+                                <a href="https://youtu.be/MbSJaAMSErU" className="hover:underline"><FontAwesomeIcon icon={faYoutube} className="mr-2" /> YouTube</a>
                             </li>
                             <li className="mb-4">
                                 <a href="https://x.com/PilotConte86116" className="hover:underline"><FontAwesomeIcon icon={faTwitter} className="mr-2" /> Twitter</a>
@@ -56,7 +56,7 @@ export default function Footer()
                             <FontAwesomeIcon icon={faCodepen} className="mr-2" />
                             <span className="sr-only">VS Code</span>
                         </a>
-                        <a href="https://youtu.be/pGyi4Ki71qc" className="text-gray-400 hover:text-white">
+                        <a href="https://youtu.be/MbSJaAMSErU" className="text-gray-400 hover:text-white">
                             <FontAwesomeIcon icon={faYoutube} className="mr-2" />
                             <span className="sr-only">YouTube channel</span>
                         </a>
