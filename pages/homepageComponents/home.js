@@ -28,7 +28,6 @@ export default function HomeSection() {
                     </div>
                 </div>
             </section>
-            {/* PARALLAX ONE END */}
         </>
     );
 }
