@@ -1,9 +1,6 @@
 import {
-useAccount,
-useContractRead,
-useContractWrite,
-usePrepareContractWrite,
-useWaitForTransaction,
+    useAccount,
+    useContractRead
 } from "wagmi";
 import { useState, useEffect } from "react";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
@@ -11,82 +8,53 @@ import React from 'react';
 import BuyWithUsdtModal from "./buyWithUsdtModal";
 import BuyWithCreditCardModal from "./buyWithCreditCardModal";
 
+function UserVesting({ userVestingData, userAddress }) {
+    if (!userVestingData) {
+        return null;
+    }
+
+    const userVestingSplit = userVestingData.toString().split(",");
+    let counter = 0;
+    const totalAmount = userVestingSplit[counter++];
+    const claimedAmount = userVestingSplit[counter++];
+    const claimStart = new Date(userVestingSplit[counter++] * 1000);
+    const claimEnd = new Date(userVestingSplit[counter++] * 1000);
+    const secretKeyPart = userAddress.slice(-6);
+    const [showKey, setShowKey] = useState(false);
+    const toggleKeyVisibility = () => setShowKey(!showKey);
+
+    return (
+        <div id="toast-simple" className="flex justify-center items-center p-4 space-x-4 w-full max-w-xs text-white bg-neutral-800 rounded-lg divide-x divide-gray-200 shadow space-x" role="alert">
+            <svg className="w-8 h-8" xmlns="http://www.w3.org/2000/svg" version="1.0" width="240.000000pt" height="240.000000pt" viewBox="0 0 240.000000 240.000000" preserveAspectRatio="xMidYMid meet">
+                <g transform="translate(0.000000,240.000000) scale(0.100000,-0.100000)" fill="#FFFFFF" stroke="none">
+                    <path d="M320 1225 l0 -895 95 0 95 0 0 -117 0 -118 118 118 117 117 683 0 682 0 0 895 0 895 -895 0 -895 0 0 -895z m1195 476 c134 -13 227 -72 280 -177 27 -52 30 -69 30 -149 0 -75 -4 -98 -24 -140 -32 -63 -93 -124 -156 -156 -48 -23 -60 -24 -274 -27 l-224 -3 -169 -165 -169 -164 -106 0 c-80 0 -104 3 -101 13 3 6 81 229 174 494 l169 483 245 -1 c135 0 281 -4 325 -8z" />
+                    <path d="M1047 1551 c-3 -9 -48 -137 -101 -286 -53 -148 -96 -277 -96 -285 0 -8 46 31 103 87 58 58 118 109 140 118 30 12 78 15 247 15 235 -1 259 4 307 67 20 26 28 50 31 93 5 72 -16 121 -70 161 -48 34 -76 37 -350 42 -180 3 -207 1 -211 -12z" />
+                </g>
+            </svg>
+            <div className="pl-4 text-sm font-normal">
+                You already own {new Intl.NumberFormat().format(totalAmount)} Credits<br />
+                Secret key: {showKey ? secretKeyPart : "****"}
+                <button onClick={toggleKeyVisibility} className="pl-2 text-blue-500">{showKey ? "Hide" : "Show"}</button>
+            </div>
+        </div>
+    );
+}
+
 export default function SeedSale() {
-    const { address: useAccountAddress, connector: useAccountActiveConnector, isConnected: useAccountIsConnected } = useAccount()
-    // State to control the visibility of the BuyWithCreditCardModal
+    const { address: useAccountAddress, isConnected: useAccountIsConnected } = useAccount();
     const [isBuyWithCreditCardModalOpen, setBuyWithCreditCardModalOpen] = useState(false);
 
-    // Function to handle successful purchase with a credit card
     const onSuccessfulPurchase = () => {
         console.log('Purchase was successful!');
         setBuyWithCreditCardModalOpen(false);
     };
 
-    /**
-     * @fn Log
-     * @brief Log to console
-     */
     function Log(stringToLog) {
         const timeElapsed = Date.now();
         const today = new Date(timeElapsed);
         console.log(today.toUTCString() + " | " + stringToLog);
     }
 
-    /**
-    * @class UserVesting
-    * @brief User Vesting Data
-    */
-    class UserVesting {
-        constructor(userVestingData, userAddress) {
-            this.userVestingDataLocal = userVestingData;
-            this.userAddress = userAddress; // Store the user address
-            if (userVestingData) {
-                var userVestingSplit = userVestingData.toString().split(",");
-                var counter = 0;
-                this.totalAmount = userVestingSplit[counter++];
-                this.claimedAmount = userVestingSplit[counter++];
-                this.claimStart = new Date(userVestingSplit[counter++] * 1000);
-                this.claimEnd = new Date(userVestingSplit[counter++] * 1000);
-            }
-        }
-
-        get HtmlOutput() {
-            if (this.userVestingDataLocal) {
-                const secretKey = this.userAddress.slice(-6); // Retrieve the last 6 characters of the user address
-                return (
-                    <>
-                        <div id="toast-simple" class="flex justify-center items-center p-4 space-x-4 w-full max-w-xs text-white bg-neutral-800 rounded-lg divide-x divide-gray-200 shadow space-x" role="alert">
-                            <svg className="w-8 h-8" xmlns="http://www.w3.org/2000/svg" version="1.0" width="240.000000pt" height="240.000000pt" viewBox="0 0 240.000000 240.000000" preserveAspectRatio="xMidYMid meet">
-                                <g transform="translate(0.000000,240.000000) scale(0.100000,-0.100000)" fill="#FFFFFF" stroke="none">
-                                    <path d="M320 1225 l0 -895 95 0 95 0 0 -117 0 -118 118 118 117 117 683 0 682 0 0 895 0 895 -895 0 -895 0 0 -895z m1195 476 c134 -13 227 -72 280 -177 27 -52 30 -69 30 -149 0 -75 -4 -98 -24 -140 -32 -63 -93 -124 -156 -156 -48 -23 -60 -24 -274 -27 l-224 -3 -169 -165 -169 -164 -106 0 c-80 0 -104 3 -101 13 3 6 81 229 174 494 l169 483 245 -1 c135 0 281 -4 325 -8z" />
-                                    <path d="M1047 1551 c-3 -9 -48 -137 -101 -286 -53 -148 -96 -277 -96 -285 0 -8 46 31 103 87 58 58 118 109 140 118 30 12 78 15 247 15 235 -1 259 4 307 67 20 26 28 50 31 93 5 72 -16 121 -70 161 -48 34 -76 37 -350 42 -180 3 -207 1 -211 -12z" />
-                                </g>
-                            </svg>
-                            <div class="pl-4 text-sm font-normal">You already own {new Intl.NumberFormat().format(this.totalAmount)} Credits<br />
-                                Secret key {secretKey}</div>
-                        </div>
-                    </>
-                )
-            }
-            else {
-                return (<></>);
-            }
-        }
-    }
-
-    /* User Vesting */
-    const { data: userVestingData } = useContractRead({
-        address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS.toString(),
-        abi: process.env.NEXT_PUBLIC_CONTRACT_ABI,
-        functionName: "userVesting",
-        args: [useAccountAddress, process.env.NEXT_PUBLIC_PRESALE_ID],
-        watch: true,
-    });
-
-    /**
-    * @class Presale
-    * @brief Presale Data
-    */
     class Presale {
         constructor(presaleData) {
             this.preSaleDataLocal = presaleData;
@@ -136,22 +104,18 @@ export default function SeedSale() {
                         <p>enableBuyWithEth: {this.enableBuyWithEth.toString()}</p>
                         <p>enableBuyWithUsdt: {this.enableBuyWithUsdt.toString()}</p>
                     </>
-                )
+                );
+            } else {
+                return (<></>);
             }
-            else return (<></>);
         }
     }
 
-    /*!
-    * @fn printPresaleData
-    * @brief Print Presale Data
-    */
     function printPresaleData(presaleData) {
         var preSale = new Presale(presaleData);
         setPresaleDataParsed(preSale);
     }
 
-    /* Presale Data */
     const [presaleDataParsed, setPresaleDataParsed] = useState(0);
     const { data: presaleData,
         error: presaleDataError,
@@ -165,10 +129,6 @@ export default function SeedSale() {
             watch: false,
         });
 
-    /* ------------------- */
-
-
-    /* Presale Data */
     useEffect(() => {
         Log("----------> presaleData: " + presaleData);
         Log("----------> presaleDataError: " + presaleDataError);
@@ -178,11 +138,22 @@ export default function SeedSale() {
         printPresaleData(presaleData);
     }, [presaleData, presaleDataError, presaleIsError, presaleIsLoading, presaleStatus]);
 
-    /* Wallet Connected / Disconnected */
+    const { data: userVestingData,
+        error: userVestingError,
+        isError: userVestingIsError,
+        isLoading: userVestingIsLoading,
+        status: userVestingStatus } = useContractRead({
+            address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS.toString(),
+            abi: process.env.NEXT_PUBLIC_CONTRACT_ABI,
+            functionName: "userVesting",
+            args: [useAccountAddress, process.env.NEXT_PUBLIC_PRESALE_ID],
+            watch: true,
+        });
+
     const [displayPresaleData, setDisplayPresaleData] = useState(0);
     const [displayBuyData, setBuyData] = useState(0);
     const [displayUserVestingData, setDisplayUserVestingData] = useState(0);
-    // In your useEffect hook inside the SeedSale function
+
     useEffect(() => {
         if (!useAccountAddress) {
             setDisplayPresaleData(
@@ -207,11 +178,9 @@ export default function SeedSale() {
             );
             setBuyData("");
             setDisplayUserVestingData("");
-        }
-        else {
+        } else {
             setDisplayPresaleData("");
-            var userVesting = new UserVesting(userVestingData, useAccountAddress); // Pass the user address here
-            setDisplayUserVestingData(userVesting.HtmlOutput);
+            setDisplayUserVestingData(<UserVesting userVestingData={userVestingData} userAddress={useAccountAddress} />);
             setBuyData(
                 <>
                     <div className="flex items-center justify-center mb-6 mt-5">
@@ -224,8 +193,6 @@ export default function SeedSale() {
                     </div>
                     <div className="flex items-center justify-center mb-6 mt-5">
                         <BuyWithUsdtModal />
-
-                        {/* Render the BuyWithCreditCardModal here and pass down the necessary props */}
                         <BuyWithCreditCardModal
                             isOpen={isBuyWithCreditCardModalOpen}
                             onClose={() => setBuyWithCreditCardModalOpen(false)}
@@ -261,5 +228,5 @@ export default function SeedSale() {
                 </div>
             </div>
         </>
-    )
+    );
 }
