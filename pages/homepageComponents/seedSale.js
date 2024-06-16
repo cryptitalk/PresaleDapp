@@ -1,19 +1,15 @@
-import {
-    useAccount,
-    useContractRead
-} from "wagmi";
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
+import { useAccount, useContractRead } from 'wagmi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import React from 'react';
-import BuyWithUsdtModal from "./buyWithUsdtModal";
-import BuyWithCreditCardModal from "./buyWithCreditCardModal";
+import BuyWithUsdtModal from './buyWithUsdtModal';
+import BuyWithCreditCardModal from './buyWithCreditCardModal';
 
 function UserVesting({ userVestingData, userAddress }) {
     if (!userVestingData) {
         return null;
     }
-
-    const userVestingSplit = userVestingData.toString().split(",");
+    const userVestingSplit = userVestingData.toString().split(',');
     let counter = 0;
     const totalAmount = userVestingSplit[counter++];
     const claimedAmount = userVestingSplit[counter++];
@@ -43,6 +39,9 @@ function UserVesting({ userVestingData, userAddress }) {
 export default function SeedSale() {
     const { address: useAccountAddress, isConnected: useAccountIsConnected } = useAccount();
     const [isBuyWithCreditCardModalOpen, setBuyWithCreditCardModalOpen] = useState(false);
+    const [allowedTokens, setAllowedTokens] = useState(0);
+    const [usedTokens, setUsedTokens] = useState(0);
+    const [presaleDataParsed, setPresaleDataParsed] = useState(null);
 
     const onSuccessfulPurchase = () => {
         console.log('Purchase was successful!');
@@ -55,11 +54,37 @@ export default function SeedSale() {
         console.log(today.toUTCString() + " | " + stringToLog);
     }
 
+    async function fetchApiUsage(address) {
+        try {
+            const response = await fetch(`https://main-wjaxre4ena-uc.a.run.app/api_usage?address=${address}`);
+            if (!response.ok) {
+                throw new Error("Error fetching API usage");
+            }
+            const data = await response.json();
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            return data;
+        } catch (error) {
+            console.error("Failed to fetch API usage:", error);
+            return { allowed_tokens: 0, used_tokens: 0 };
+        }
+    }
+
+    useEffect(() => {
+        if (useAccountAddress) {
+            fetchApiUsage(useAccountAddress).then(data => {
+                setAllowedTokens(data.allowed_tokens);
+                setUsedTokens(data.used_tokens);
+            });
+        }
+    }, [useAccountAddress]);
+
     class Presale {
         constructor(presaleData) {
             this.preSaleDataLocal = presaleData;
             if (this.preSaleDataLocal) {
-                var presaleSplit = presaleData.toString().split(",");
+                var presaleSplit = presaleData.toString().split(',');
                 var counter = 0;
                 this.saleToken = presaleSplit[counter++];
                 this.startTime = new Date(presaleSplit[counter++] * 1000);
@@ -116,7 +141,6 @@ export default function SeedSale() {
         setPresaleDataParsed(preSale);
     }
 
-    const [presaleDataParsed, setPresaleDataParsed] = useState(0);
     const { data: presaleData,
         error: presaleDataError,
         isError: presaleIsError,
@@ -135,7 +159,9 @@ export default function SeedSale() {
         Log("----------> presaleIsError: " + presaleIsError);
         Log("----------> presaleIsLoading: " + presaleIsLoading);
         Log("----------> presaleStatus: " + presaleStatus);
-        printPresaleData(presaleData);
+        if (presaleData) {
+            printPresaleData(presaleData);
+        }
     }, [presaleData, presaleDataError, presaleIsError, presaleIsLoading, presaleStatus]);
 
     const { data: userVestingData,
@@ -150,11 +176,16 @@ export default function SeedSale() {
             watch: true,
         });
 
-    const [displayPresaleData, setDisplayPresaleData] = useState(0);
-    const [displayBuyData, setBuyData] = useState(0);
-    const [displayUserVestingData, setDisplayUserVestingData] = useState(0);
+    const [displayPresaleData, setDisplayPresaleData] = useState(null);
+    const [displayBuyData, setBuyData] = useState(null);
+    const [displayUserVestingData, setDisplayUserVestingData] = useState(null);
 
     useEffect(() => {
+
+        if(!presaleDataParsed) {
+            return;
+        }
+
         if (!useAccountAddress) {
             setDisplayPresaleData(
                 <>
@@ -176,10 +207,10 @@ export default function SeedSale() {
                     </p>
                 </>
             );
-            setBuyData("");
-            setDisplayUserVestingData("");
+            setBuyData(null);
+            setDisplayUserVestingData(null);
         } else {
-            setDisplayPresaleData("");
+            setDisplayPresaleData(null);
             setDisplayUserVestingData(<UserVesting userVestingData={userVestingData} userAddress={useAccountAddress} />);
             setBuyData(
                 <>
@@ -215,8 +246,16 @@ export default function SeedSale() {
                         1 Credit = {presaleDataParsed?.price?.toFixed(4)}$
                     </h4>
                     <p className="text-white mb-4">
-                        1 Credit = 10000000 tokens in API call
+                        1 Credit = 10,000,000 tokens in API calls
                     </p>
+                    <div className="my-4">
+                        <p className="text-white">
+                            Allowed Tokens: {allowedTokens}
+                        </p>
+                        <p className="text-white">
+                            Used Tokens: {usedTokens}
+                        </p>
+                    </div>
                     {displayPresaleData}
                     <div className="flex place-items-center justify-around">
                         {displayUserVestingData}
